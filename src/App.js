@@ -1,25 +1,51 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { Breadcrumbs } from './components/Breadcrumbs';
+import { FolderContents } from './components/FolderContents';
+import { getDirectoriesDetails } from './controllers/directoriesController'
 
-function App() {
+export function App() {
+  const [directoryPath, setDirectoryPath] = useState([])
+  const [directoryId, setDirectoryId] = useState(null)
+  const [contents, setContents] = useState([])
+  
+  useEffect(async () => {
+    const directory = await getDirectoriesDetails(directoryId)
+    const {id, name, contents} = directory
+    setContents(contents)
+    addToDirectoryPath({
+      id, 
+      name,
+    })
+  }, [directoryId])
+
+  const setCurrentDirectory = (item) => {
+    setDirectoryId(Number(item.id))
+  }
+
+  const addToDirectoryPath = (directory) => {
+    setDirectoryPath([
+      ...directoryPath,
+      directory
+    ])
+  }
+
+  const onBreadcrumbsClick = (directory, i) => {
+    setCurrentDirectory(directory)
+    setDirectoryPath([...directoryPath.filter((directory, index) => index < i)])
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Breadcrumbs 
+        directoryPath={directoryPath}
+        setDirectory={onBreadcrumbsClick}
+      />
+      <FolderContents
+        contents={contents}
+        setCurrentDirectory={setCurrentDirectory}
+        addToDirectoryPath={addToDirectoryPath}
+      />
     </div>
   );
 }
-
-export default App;
