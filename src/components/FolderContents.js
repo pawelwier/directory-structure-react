@@ -1,7 +1,7 @@
 import React from 'react'
-import { Item } from './Item'
+import Item from './Item'
 
-export const FolderContents = ({ setCurrentDirectory, contents }) => {
+export default function FolderContents({ setCurrentDirectory, contents }) {
   const itemContainer = {
     display: 'grid',
     gridTemplateColumns: 'repeat(5, 100px)',

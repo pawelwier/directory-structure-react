@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Item = ({ item, onDirectorySelect }) => {
+export default function Item({ item, onDirectorySelect }) {
 const MAX_FILE_NAME_LENGTH = 8
 
   const onItemClick = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Breadcrumbs = ({ directoryPath, setDirectory }) => {
+export default function Breadcrumbs({ directoryPath, setDirectory }) {
   const isLast = index => index === directoryPath.length - 1
 
   const onBreadcrumbsClick = (directory, i) => {

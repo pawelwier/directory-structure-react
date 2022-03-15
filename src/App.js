@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Breadcrumbs } from './components/Breadcrumbs';
-import { FolderContents } from './components/FolderContents';
+import Breadcrumbs from './components/Breadcrumbs';
+import FolderContents from './components/FolderContents';
 import { getDirectoriesDetails } from './controllers/directoriesController'
 
-export function App() {
+export default function App() {
   const [directoryPath, setDirectoryPath] = useState([])
   const [directoryId, setDirectoryId] = useState(null)
   const [contents, setContents] = useState([])
   
-  useEffect(async () => {
+  const getContentsPath = async () => {
     const directory = await getDirectoriesDetails(directoryId)
     const {id, name, contents} = directory
     setContents(contents)
@@ -17,6 +17,10 @@ export function App() {
       id, 
       name,
     })
+  }
+  
+  useEffect(async () => {
+    getContentsPath()
   }, [directoryId])
 
   const setCurrentDirectory = (item) => {
